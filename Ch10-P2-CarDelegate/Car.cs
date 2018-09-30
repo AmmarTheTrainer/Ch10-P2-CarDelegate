@@ -31,7 +31,17 @@ namespace Ch10_P2_CarDelegate
         // 3) Add registration function for the caller.
         public void RegisterWithCarEngine(CarEngineHandler methodToCall)
         {
-            listOfHandlers = methodToCall;
+            //listOfHandlers = methodToCall;
+            //listOfHandlers += methodToCall;
+
+            if (listOfHandlers == null)
+                listOfHandlers = methodToCall;
+            else
+                listOfHandlers = Delegate.Combine(listOfHandlers, methodToCall) as CarEngineHandler;
+        }
+        public void UnRegisterWithCarEngine(CarEngineHandler methodToCall)
+        {
+            listOfHandlers -= methodToCall;
         }
 
         // 4) Implement the Accelerate() method to invoke the delegate's

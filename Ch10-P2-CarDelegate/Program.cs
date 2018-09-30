@@ -16,10 +16,24 @@ namespace Ch10_P2_CarDelegate
             // Now, tell the car which method to call
             // when it wants to send us messages.
             c1.RegisterWithCarEngine(new Car.CarEngineHandler(OnCarEngineEvent));
+
+            // This time, hold onto the delegate object,
+            // so we can unregister later.
+            Car.CarEngineHandler handler2 = new Car.CarEngineHandler(OnCarEngineEvent2);
+            c1.RegisterWithCarEngine(handler2);
+
             // Speed up (this will trigger the events).
             Console.WriteLine("***** Speeding up *****");
             for (int i = 0; i < 6; i++)
                 c1.Accelerate(20);
+
+            // Unregister from the second handler.
+            c1.UnRegisterWithCarEngine(handler2);
+            // We won't see the "uppercase" message anymore!
+            Console.WriteLine("***** Speeding up *****");
+            for (int i = 0; i < 6; i++)
+                c1.Accelerate(20);
+
             Console.ReadLine();
         }
 
@@ -29,6 +43,10 @@ namespace Ch10_P2_CarDelegate
             Console.WriteLine("\n***** Message From Car Object *****");
             Console.WriteLine("=> {0}", msg);
             Console.WriteLine("***********************************\n");
+        }
+        public static void OnCarEngineEvent2(string msg)
+        {
+            Console.WriteLine("=> {0}", msg.ToUpper());
         }
     }
 }
